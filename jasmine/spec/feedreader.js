@@ -81,7 +81,7 @@ $(function() {
         * the use of Jasmine's beforeEach and asynchronous done() function.
         */
        beforeEach(function(done) {
-            loadFeed(0, done); // Got stuck here and had to reference https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/ for 'loadFeed(0, done)'
+            loadFeed(0, done); // Got stuck here and referenced https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/ for 'loadFeed(0, done)'
        });
 
        it('has at least one entry after feed is loaded', function() {
@@ -96,13 +96,25 @@ $(function() {
         * Remember, loadFeed() is asynchronous.
         */
 
+        // Got stuck here and referenced Lloan Alas Feed Reader Testing Webinar 
+        let feed0, feed1; // Variables to store content so we can compare feeds later
+
         beforeEach(function(done) {
-            loadFeed(0);
-            loadFeed(1, done); // Referenced https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/ for 'loadFeed(1, done)'
+            // load the first feed --> feed0
+            loadFeed(0, function() {
+                feed0 = $('.feed').html(); // get content w/ .html and store into feed0
+                done();
+            });
+
+            // load the second feed --> feed1
+            loadFeed(1, function() {
+                feed1 = $('.feed').html();
+                done();
+            });
         });
        
         it('ensures that content changes after new feed is loaded', function() {
-            expect()
+            expect(feed0 === feed1).toBe(false);
        });
     });
 }());
