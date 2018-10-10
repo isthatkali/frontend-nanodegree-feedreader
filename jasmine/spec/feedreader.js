@@ -65,9 +65,9 @@ $(function() {
        * clicked and does it hide when clicked again.
        */
       it('changes visibility when menu icon clicked', function() {
-            $('menu-icon-link').click();
+            $('.menu-icon-link').click();
             expect(($('body')).hasClass('menu-hidden')).toBe(false);
-            $('menu-icon-link').click();
+            $('.menu-icon-link').click();
             expect(($('body')).hasClass('menu-hidden')).toBe(true);
       });
     });
@@ -81,19 +81,28 @@ $(function() {
         * the use of Jasmine's beforeEach and asynchronous done() function.
         */
        beforeEach(function(done) {
-            loadFeed(0, done); // Got stuck here and had to reference https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/
+            loadFeed(0, done); // Got stuck here and had to reference https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/ for 'loadFeed(0, done)'
        });
 
        it('has at least one entry after feed is loaded', function() {
             expect(($('.feed').length)).toBeGreaterThan(0);
        });
-
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
-
+    describe('New Feed Selection', function() {
         /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        * by the loadFeed function that the content actually changes.
+        * Remember, loadFeed() is asynchronous.
+        */
+
+        beforeEach(function(done) {
+            loadFeed(0);
+            loadFeed(1, done); // Referenced https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/ for 'loadFeed(1, done)'
+        });
+       
+        it('ensures that content changes after new feed is loaded', function() {
+            expect()
+       });
+    });
 }());
