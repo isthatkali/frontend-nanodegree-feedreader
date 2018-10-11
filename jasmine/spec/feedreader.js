@@ -26,72 +26,68 @@ $(function() {
             expect(allFeeds.length).not.toBe(0);
         });
 
+        // Corrected
         it('has url', function() {
             for (feed of allFeeds) {
+                expect(feed.url).toBeDefined();
                 expect(feed.url.lenth).not.toBe(0);
             }
         });
 
+        // Corrected
         it('has name', function() {
             for (feed of allFeeds) {
+                expect(feed.name).toBeDefined();
                 expect(feed.name.length).not.toBe(0);
             }
         });
     });
 
     describe('The Menu', function() {
-        let menuIcon = $('.menu-icon-link');
+        const body = $('body');
+        const menuIcon = $('.menu-icon-link');
     
         it('is hidden by default', function() {
-           expect(($('body')).hasClass('menu-hidden')).toBe(true);
+           expect(body.hasClass('menu-hidden')).toBe(true);
         });
        
         it('changes visibility when menu icon clicked', function() {
             menuIcon.click();
-            expect(($('body')).hasClass('menu-hidden')).toBe(false);
+            expect(body.hasClass('menu-hidden')).toBe(false);
             menuIcon.click();
-            expect(($('body')).hasClass('menu-hidden')).toBe(true);
+            expect(body.hasClass('menu-hidden')).toBe(true);
       });
     });
       
-    /* TODO: Write a new test suite named "Initial Entries" */
-    describe('Initial Entries', function() {        
-        /* TODO: Write a test that ensures when the loadFeed
-        * function is called and completes its work, there is at least
-        * a single .entry element within the .feed container.
-        * Remember, loadFeed() is asynchronous so this test will require
-        * the use of Jasmine's beforeEach and asynchronous done() function.
-        */
-       beforeEach(function(done) {
+    describe('Initial Entries', function() { 
+        const feedEntries = $('.feed .entry');    
+    
+        beforeEach(function(done) {
             loadFeed(0, done); // Got stuck here and referenced https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/ for 'loadFeed(0, done)'
-       });
+            
+            // Corrected to specifically select entries in feed
+            it('has at least one entry after feed is loaded', function() {
+                expect(feedEntries.length).toBeGreaterThan(0);
+            });
+        });
 
-       it('has at least one entry after feed is loaded', function() {
-            expect(($('.feed').length)).toBeGreaterThan(0);
-       });
-    });
+    })
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
-        /* TODO: Write a test that ensures when a new feed is loaded
-        * by the loadFeed function that the content actually changes.
-        * Remember, loadFeed() is asynchronous.
-        */
-
         // Got stuck here and referenced Lloan Alas Feed Reader Testing Webinar 
         let feed0, feed1; // Variables to store content so we can compare feeds later
 
+        // Corrected to make sure both feeds load
         beforeEach(function(done) {
             // load the first feed --> feed0
             loadFeed(0, function() {
                 feed0 = $('.feed').html(); // get content w/ .html and store into feed0
-                done();
-            });
 
-            // load the second feed --> feed1
-            loadFeed(1, function() {
-                feed1 = $('.feed').html();
-                done();
+                // load the second feed --> feed1
+                loadFeed(1, function() {
+                    feed1 = $('.feed').html();
+                    done();
+                });
             });
         });
        
